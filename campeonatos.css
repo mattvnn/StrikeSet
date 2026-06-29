@@ -1,0 +1,579 @@
+.pagina-campeonatos {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.sec-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.camp-hero {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    background-image: url("camp-hero.avif");
+    background-size: cover;
+    background-position:center 30%;
+}
+
+.camp-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.camp-hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    animation: fadeIn 0.6s ease both;
+}
+
+.camp-hero-esquerda {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.camp-tag {
+    display: inline-block;
+    background: var(--laranja);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+    width: fit-content;
+}
+
+.camp-hero-esquerda h1 {
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+}
+
+.camp-hero-esquerda p {
+    font-size: 1.05rem;
+    color: var(--cinza-claro);
+    line-height: 1.7;
+}
+
+.camp-hero-direita {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 28px;
+    flex-shrink: 0;
+}
+
+.hero-numeros {
+    display: flex;
+    gap: 16px;
+}
+
+.hero-num {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 22px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 100px;
+}
+
+.hero-num strong {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--laranja);
+    line-height: 1;
+}
+
+.hero-num span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--cinza-texto);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-galeria-btn {
+    display: inline-block;
+    background: var(--laranja);
+    color: white;
+    border: 1px solid var(--laranja);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 12px 24px;
+    border-radius: 6px;
+    transition: background 0.25s, transform 0.25s;
+    white-space: nowrap;
+}
+
+.hero-galeria-btn:hover {
+    background: var(--laranja-escuro);
+    transform: translateY(-2px);
+}
+
+.proximos {
+    padding: 80px 60px;
+    background: var(--preto);
+    border-bottom: 1px solid var(--cinza-medio);
+}
+
+.proximos h2,
+.disputados h2,
+.conquistas h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 36px;
+}
+
+.proximos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.camp-card {
+    background: var(--cinza-escuro);
+    border: 1px solid var(--cinza-medio);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: border-color 0.25s, transform 0.25s;
+}
+
+.camp-card:hover {
+    border-color: var(--laranja);
+    transform: translateY(-3px);
+}
+
+.camp-card-topo {
+    display: flex;
+    align-items: flex-start;
+}
+
+.camp-status {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+}
+
+.status-aberto {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.status-confirmado {
+    background: rgba(249, 115, 22, 0.15);
+    color: var(--laranja);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.status-analise {
+    background: rgba(234, 179, 8, 0.15);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.camp-card h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.3;
+}
+
+.camp-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.camp-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.info-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--laranja);
+}
+
+.info-val {
+    font-size: 0.95rem;
+    color: var(--cinza-texto);
+}
+
+.camp-btn {
+    display: inline-block;
+    background: transparent;
+    color: var(--laranja);
+    border: 1px solid var(--laranja);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-align: center;
+    transition: background 0.25s, color 0.25s;
+    margin-top: auto;
+}
+
+.camp-btn:hover {
+    background: var(--laranja);
+    color: white;
+}
+
+.disputados {
+    padding: 80px 60px;
+    background: var(--preto-claro);
+    border-top: 1px solid var(--cinza-medio);
+    border-bottom: 1px solid var(--cinza-medio);
+}
+
+.disputados-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.disp-card {
+    display: flex;
+    align-items: stretch;
+    background: var(--cinza-escuro);
+    border: 1px solid var(--cinza-medio);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+}
+
+.disp-card:hover {
+    border-color: var(--laranja);
+}
+
+.disp-ano {
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cinza-medio);
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--laranja);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+.disp-corpo {
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.disp-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.disp-corpo h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: white;
+}
+
+.disp-coloc {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.coloc-ouro {
+    background: rgba(234, 179, 8, 0.15);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.coloc-prata {
+    background: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.coloc-bronze {
+    background: rgba(180, 83, 9, 0.15);
+    color: #fb923c;
+    border: 1px solid rgba(180, 83, 9, 0.3);
+}
+
+.coloc-neutro {
+    background: rgba(100, 116, 139, 0.15);
+    color: #94a3b8;
+    border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.disp-corpo p {
+    font-size: 0.92rem;
+    color: var(--cinza-texto);
+    line-height: 1.6;
+}
+
+.conquistas {
+    padding: 80px 60px;
+    background: var(--preto);
+    border-bottom: 1px solid var(--cinza-medio);
+}
+
+.conquistas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.conq-card {
+    background: var(--cinza-escuro);
+    border: 1px solid var(--cinza-medio);
+    border-radius: 10px;
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.25s, transform 0.25s;
+}
+
+.conq-card:hover {
+    border-color: var(--laranja);
+    transform: translateY(-3px);
+}
+
+.conq-icone {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.conq-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+}
+
+.conq-card p {
+    font-size: 0.85rem;
+    color: var(--laranja);
+    font-weight: 600;
+}
+
+.camp-cta {
+    padding: 90px 60px;
+    background: var(--preto);
+    border-top: 1px solid var(--cinza-medio);
+}
+
+.camp-cta-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.camp-cta-inner h2 {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.8px;
+    line-height: 1.2;
+}
+
+.camp-cta-inner p {
+    font-size: 1rem;
+    color: var(--cinza-texto);
+    line-height: 1.7;
+}
+
+.cta-btn {
+    display: inline-block;
+    margin-top: 10px;
+    background: var(--laranja);
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 15px 38px;
+    border-radius: 6px;
+    transition: background 0.25s, transform 0.25s;
+}
+
+.cta-btn:hover {
+    background: var(--laranja-escuro);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+    .camp-hero-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 60px 30px;
+        gap: 36px;
+    }
+
+    .camp-hero-direita {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .hero-numeros {
+        width: 100%;
+    }
+
+    .hero-num {
+        flex: 1;
+    }
+
+    .camp-hero-esquerda h1 {
+        font-size: 2.4rem;
+    }
+
+    .proximos,
+    .disputados,
+    .conquistas,
+    .camp-cta {
+        padding: 60px 30px;
+    }
+
+    .proximos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .conquistas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .camp-hero {
+        min-height: unset;
+    }
+
+    .camp-hero-inner {
+        padding: 48px 20px;
+        gap: 28px;
+    }
+
+    .camp-hero-esquerda h1 {
+        font-size: 2rem;
+    }
+
+    .hero-numeros {
+        gap: 10px;
+    }
+
+    .hero-num {
+        padding: 16px 12px;
+        min-width: unset;
+    }
+
+    .hero-num strong {
+        font-size: 1.6rem;
+    }
+
+    .hero-galeria-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .proximos,
+    .disputados,
+    .conquistas,
+    .camp-cta {
+        padding: 44px 20px;
+    }
+
+    .proximos h2,
+    .disputados h2,
+    .conquistas h2 {
+        font-size: 1.6rem;
+    }
+
+    .disp-ano {
+        min-width: 60px;
+        font-size: 0.8rem;
+    }
+
+    .disp-corpo {
+        padding: 16px 18px;
+    }
+
+    .conquistas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .camp-cta-inner h2 {
+        font-size: 1.8rem;
+    }
+
+    .cta-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
