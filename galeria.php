@@ -52,7 +52,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalTreino">
 
-<img src="treino1.avif">
+<img src="treino1.avif" alt="Treinos do StrikeSet">
 
 <div class="galeria-card-body">
 
@@ -72,7 +72,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalCamp">
 
-<img src="camp1.avif">
+<img src="camp1.avif" alt="Campeonato Regional">
 
 <div class="galeria-card-body">
 
@@ -92,7 +92,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalTime">
 
-<img src="time1.avif">
+<img src="time1.avif" alt="Foto do time 2026">
 
 <div class="galeria-card-body">
 
@@ -140,14 +140,14 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="carousel-item active">
 
-<img src="treino1.avif" class="d-block w-100">
+<img src="treino1.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
 
 <div class="carousel-item">
 
-<img src="treino2.avif" class="d-block w-100">
+<img src="treino2.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
@@ -204,13 +204,13 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="carousel-item active">
 
-<img src="camp1.avif" class="d-block w-100">
+<img src="camp1.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
 <div class="carousel-item">
 
-<img src="camp2.avif" class="d-block w-100">
+<img src="camp2.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
@@ -264,13 +264,13 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="carousel-item active">
 
-<img src="time1.avif" class="d-block w-100">
+<img src="time1.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
 <div class="carousel-item">
 
-<img src="time2.avif" class="d-block w-100">
+<img src="time2.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 

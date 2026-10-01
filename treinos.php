@@ -169,7 +169,6 @@
         const nome = document.getElementById('nome').value.trim();
         const email = document.getElementById('email').value.trim();
         const telefone = document.getElementById('telefone').value.trim();
-        const nivel = document.getElementById('nivel').value;
         const treino = document.getElementById('treino').value;
 
         if (!nome || nome.length < 3) {

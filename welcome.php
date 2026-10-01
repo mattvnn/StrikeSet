@@ -8,15 +8,27 @@
 
 <title>StrikeSet Gaspar - Bem-vindo</title>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="global.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="welcome.css?v=<?php echo time(); ?>">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
 
 <body class="pagina-home welcome-page">
+
+<header>
+    <h2>StrikeSet Gaspar</h2>
+    <nav>
+        <a href="home.php">Inicio</a>
+        <a href="galeria.php">Galeria</a>
+        <a href="sobre.php">Sobre o Time</a>
+        <a href="treinos.php">Treinos</a>
+        <a href="campeonatos.php">Campeonatos</a>
+        <a class="btn-login" href="login.php">LOGIN/REGISTRO</a>
+    </nav>
+</header>
 
 <section class="welcome-container">
 
@@ -116,9 +128,9 @@ Explore as seções abaixo para começar sua jornada com a gente.
 
 <div>
 
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg">
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram">
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg" alt="Twitter">
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg" alt="WhatsApp">
 
 </div>
 

@@ -25,7 +25,7 @@
 
 <section class="hero">
     <div class="hero-img">
-        <img src="jointeam.png" width="400">
+        <img src="jointeam.png" width="400" alt="Venha para o time StrikeSet">
     </div>
 
     <div class="hero-text">
@@ -33,7 +33,7 @@
         <p>Aqui rola treino, campeonato e muita resenha.</p>
         <p>Não importa se você já joga faz tempo ou tá começando agora.</p>
         <p>Venha pro time!</p>
-        <button>JUNTE-SE</button>
+        <a class="btn-junte" href="login.php#cadastro">JUNTE-SE</a>
     </div>
 </section>
 

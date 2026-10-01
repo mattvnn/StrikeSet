@@ -41,7 +41,7 @@ if (
     <nav>
         <a href="home.php">Inicio</a>
         <a href="admin_galeria.php">Galeria</a>
-        <a href="sobre.php">Sobre</a>
+        <a href="sobre.php">Sobre o Time</a>
         <a href="admin_treinos.php">Treinos</a>
         <a href="campeonatos.php">Campeonatos</a>
 

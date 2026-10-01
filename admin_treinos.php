@@ -190,7 +190,7 @@ $dias = [
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="admin_treinos.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="global.css?v=<?php echo time(); ?>">
 
 <style>
 /* ===== VARIÁVEIS ===== */
@@ -563,7 +563,7 @@ body {
     <nav>
         <a href="home.php">Inicio</a>
         <a href="admin_galeria.php">Galeria</a>
-        <a href="sobre.php">Sobre</a>
+        <a href="sobre.php">Sobre o Time</a>
         <a href="admin_treinos.php" class="active">Treinos</a>
         <a href="campeonatos.php">Campeonatos</a>
 
