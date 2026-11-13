@@ -1,3 +1,4 @@
 .env
 SQL/.banco_atualizado
 SQL/migracao.log
+SQL/.banco_atualizado_v2

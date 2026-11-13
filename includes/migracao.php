@@ -1,6 +1,8 @@
 <?php
 
-const MIGRACAO_MARCA = __DIR__ . '/../SQL/.banco_atualizado';
+const MIGRACAO_MARCA = __DIR__ . '/../SQL/.banco_atualizado_v2';
+
+const COLUNAS_RECUPERACAO = ['id', 'usuario_id', 'token_hash', 'expira_em', 'usado_em', 'criado_em'];
 
 function banco_precisa_migrar(mysqli $conn): bool
 {
@@ -12,8 +14,9 @@ function banco_precisa_migrar(mysqli $conn): bool
                   OR (TABLE_NAME = 'campeonatos' AND COLUMN_NAME IN ('data_exibicao', 'ano', 'data_inicio_texto', 'data_fim_texto'))
                   OR (TABLE_NAME = 'campeonatos' AND COLUMN_NAME IN ('data_inicio', 'data_fim') AND DATA_TYPE <> 'date')))
           +
-            (SELECT COUNT(*) = 0 FROM information_schema.TABLES
-              WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'recuperacao_senha')
+            (SELECT COUNT(*) < 6 FROM information_schema.COLUMNS
+              WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'recuperacao_senha'
+                AND COLUMN_NAME IN ('id', 'usuario_id', 'token_hash', 'expira_em', 'usado_em', 'criado_em'))
           +
             (SELECT COUNT(*) = 0 FROM information_schema.COLUMNS
               WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'treinos' AND COLUMN_NAME = 'hora_inicio')
@@ -229,6 +232,16 @@ function migrar_banco(mysqli $conn, callable $log): int
     $log('=== Migração de datas - StrikeSet ===');
     $log('');
 
+    if (mig_existe_tabela($conn, 'recuperacao_senha')) {
+        $faltando = array_diff(COLUNAS_RECUPERACAO, array_keys(mig_colunas($conn, 'recuperacao_senha')));
+
+        if ($faltando) {
+            $nomeAntigo = 'recuperacao_senha_antiga_' . date('YmdHis');
+            $conn->query("RENAME TABLE recuperacao_senha TO `$nomeAntigo`");
+            $log("[ok] Tabela recuperacao_senha tinha outro formato (faltava: " . implode(', ', $faltando) . "). Guardada como $nomeAntigo.");
+        }
+    }
+
     if (!mig_existe_tabela($conn, 'recuperacao_senha')) {
         $conn->query("
             CREATE TABLE recuperacao_senha (
@@ -241,8 +254,7 @@ function migrar_banco(mysqli $conn, callable $log): int
                 PRIMARY KEY (id),
                 UNIQUE KEY uk_recuperacao_token (token_hash),
                 KEY idx_recuperacao_usuario (usuario_id),
-                CONSTRAINT fk_recuperacao_usuario FOREIGN KEY (usuario_id)
-                    REFERENCES usuarios(id) ON DELETE CASCADE
+                FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         ");
         $log('[ok] Tabela recuperacao_senha criada.');
