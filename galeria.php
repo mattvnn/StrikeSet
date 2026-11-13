@@ -110,9 +110,9 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <!-- MODAL TREINO -->
 
-<div class="modal fade" id="modalTreino">
+<div class="modal fade modal-galeria" id="modalTreino" tabindex="-1" aria-hidden="true">
 
-<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-dialog modal-dialog-centered">
 
 <div class="modal-content">
 
@@ -120,7 +120,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <h5 class="modal-title">Treinos</h5>
 
-<button class="btn-close" data-bs-dismiss="modal"></button>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
 
 </div>
 
@@ -176,9 +176,9 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <!-- MODAL CAMPEONATO -->
 
-<div class="modal fade" id="modalCamp">
+<div class="modal fade modal-galeria" id="modalCamp" tabindex="-1" aria-hidden="true">
 
-<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-dialog modal-dialog-centered">
 
 <div class="modal-content">
 
@@ -186,7 +186,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <h5 class="modal-title">Campeonato Regional</h5>
 
-<button class="btn-close" data-bs-dismiss="modal"></button>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
 
 </div>
 
@@ -236,9 +236,9 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <!-- MODAL TIME -->
 
-<div class="modal fade" id="modalTime">
+<div class="modal fade modal-galeria" id="modalTime" tabindex="-1" aria-hidden="true">
 
-<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-dialog modal-dialog-centered">
 
 <div class="modal-content">
 
@@ -246,7 +246,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <h5 class="modal-title">Nosso Time</h5>
 
-<button class="btn-close" data-bs-dismiss="modal"></button>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
 
 </div>
 

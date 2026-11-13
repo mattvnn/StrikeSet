@@ -771,3 +771,47 @@ footer {
         gap: 16px;
     }
 }
+/* =========================================================
+   AJUSTES (datas, status extras, botões dentro de <form>)
+========================================================= */
+
+.camp-card-topo {
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 26px;
+}
+
+.status-finalizado {
+    background: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.status-passou {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.camp-admin-card--passou {
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+.disp-data {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.disp-acoes form {
+    display: flex;
+    margin: 0;
+}
+
+.conq-admin-card .admin-card-acoes {
+    margin-top: auto;
+}
+
+.conquistas-grid .admin-vazio,
+.disputados-lista .admin-vazio {
+    grid-column: 1 / -1;
+}

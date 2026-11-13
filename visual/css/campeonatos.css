@@ -577,3 +577,13 @@
     }
 }
 
+
+/* Mensagem quando uma seção ainda não tem itens */
+.camp-vazio {
+    grid-column: 1 / -1;
+    color: var(--cinza-texto);
+    text-align: center;
+    padding: 30px 20px;
+    border: 1px dashed var(--cinza-medio);
+    border-radius: 10px;
+}

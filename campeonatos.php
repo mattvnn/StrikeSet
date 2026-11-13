@@ -2,6 +2,43 @@
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
+require_once __DIR__ . '/conexao.php';
+require_once __DIR__ . '/includes/funcoes.php';
+
+$todos = $conn->query("
+    SELECT *
+    FROM campeonatos
+    ORDER BY
+        FIELD(tipo, 'proximo', 'disputado', 'conquista'),
+        CASE WHEN tipo = 'proximo' THEN data_inicio END IS NULL,
+        CASE WHEN tipo = 'proximo' THEN data_inicio END ASC,
+        data_inicio DESC,
+        id DESC
+")->fetch_all(MYSQLI_ASSOC);
+
+/* Próximos que já passaram da data não aparecem mais como "próximos" */
+$hoje = date('Y-m-d');
+
+$proximos = array_filter($todos, fn($c) => $c['tipo'] === 'proximo'
+    && (!$c['data_inicio'] || ($c['data_fim'] ?: $c['data_inicio']) >= $hoje));
+$disputados = array_filter($todos, fn($c) => $c['tipo'] === 'disputado');
+$conquistas = array_filter($todos, fn($c) => $c['tipo'] === 'conquista');
+
+$statusLabels = [
+    'aberto' => 'Inscrições abertas',
+    'confirmado' => 'Confirmado',
+    'analise' => 'Em análise',
+    'finalizado' => 'Finalizado'
+];
+
+$classeColocacao = fn($coloc) => match ($coloc) {
+    '1º lugar' => 'coloc-ouro',
+    '2º lugar' => 'coloc-prata',
+    '3º lugar' => 'coloc-bronze',
+    default => 'coloc-neutro',
+};
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -40,59 +77,31 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <h2>Próximos campeonatos</h2>
         <div class="proximos-grid">
 
-            <div class="camp-card">
-                <div class="camp-card-topo">
-                    <span class="camp-status status-aberto">Inscrições abertas</span>
-                </div>
-                <h3>Campeonato IFSC</h3>
-                <div class="camp-card-info">
-                    <div class="camp-info-item">
-                        <span class="info-label">Local</span>
-                        <span class="info-val">Ginásio IFSC Gaspar</span>
-                    </div>
-                    <div class="camp-info-item">
-                        <span class="info-label">Data</span>
-                        <span class="info-val">14 e 15 de junho de 2026</span>
-                    </div>
-                </div>
-                <a href="login.php" class="camp-btn">Ver detalhes</a>
-            </div>
+            <?php if (empty($proximos)): ?>
+                <p class="camp-vazio">Nenhum campeonato agendado no momento. Fique de olho!</p>
+            <?php endif; ?>
 
-            <div class="camp-card">
-                <div class="camp-card-topo">
-                    <span class="camp-status status-confirmado">Confirmado</span>
-                </div>
-                <h3>Torneio Regional Universitário</h3>
-                <div class="camp-card-info">
-                    <div class="camp-info-item">
-                        <span class="info-label">Local</span>
-                        <span class="info-val">Arena Blumenau</span>
+            <?php foreach ($proximos as $c): ?>
+                <div class="camp-card">
+                    <div class="camp-card-topo">
+                        <?php if ($c['status']): ?>
+                            <span class="camp-status status-<?= e($c['status']) ?>"><?= e($statusLabels[$c['status']] ?? $c['status']) ?></span>
+                        <?php endif; ?>
                     </div>
-                    <div class="camp-info-item">
-                        <span class="info-label">Data</span>
-                        <span class="info-val">5 de julho de 2026</span>
+                    <h3><?= e($c['nome']) ?></h3>
+                    <div class="camp-card-info">
+                        <div class="camp-info-item">
+                            <span class="info-label">Local</span>
+                            <span class="info-val"><?= e($c['local'] ?: 'A definir') ?></span>
+                        </div>
+                        <div class="camp-info-item">
+                            <span class="info-label">Data</span>
+                            <span class="info-val"><?= e(periodo_extenso($c['data_inicio'], $c['data_fim']) ?: 'A definir') ?></span>
+                        </div>
                     </div>
+                    <a href="login.php" class="camp-btn">Ver detalhes</a>
                 </div>
-                <a href="login.php" class="camp-btn">Ver detalhes</a>
-            </div>
-
-            <div class="camp-card">
-                <div class="camp-card-topo">
-                    <span class="camp-status status-analise">Em análise</span>
-                </div>
-                <h3>Jogos da Integração SC</h3>
-                <div class="camp-card-info">
-                    <div class="camp-info-item">
-                        <span class="info-label">Local</span>
-                        <span class="info-val">Florianópolis</span>
-                    </div>
-                    <div class="camp-info-item">
-                        <span class="info-label">Data</span>
-                        <span class="info-val">Setembro de 2026</span>
-                    </div>
-                </div>
-                <a href="login.php" class="camp-btn">Ver detalhes</a>
-            </div>
+            <?php endforeach; ?>
 
         </div>
     </div>
@@ -104,55 +113,23 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <h2>Campeonatos disputados</h2>
         <div class="disputados-lista">
 
-            <div class="disp-card">
-                <div class="disp-ano">2026</div>
-                <div class="disp-corpo">
-                    <div class="disp-topo">
-                        <h3>Copa IFSC de Vôlei</h3>
-                        <span class="disp-coloc coloc-prata">2º lugar</span>
-                    </div>
-                </div>
-            </div>
+            <?php if (empty($disputados)): ?>
+                <p class="camp-vazio">Nenhum campeonato disputado cadastrado ainda.</p>
+            <?php endif; ?>
 
-            <div class="disp-card">
-                <div class="disp-ano">2025</div>
-                <div class="disp-corpo">
-                    <div class="disp-topo">
-                        <h3>Torneio Integração IFSC</h3>
-                        <span class="disp-coloc coloc-ouro">1º lugar</span>
+            <?php foreach ($disputados as $c): ?>
+                <div class="disp-card">
+                    <div class="disp-ano"><?= e(ano_da_data($c['data_inicio']) ?: '—') ?></div>
+                    <div class="disp-corpo">
+                        <div class="disp-topo">
+                            <h3><?= e($c['nome']) ?></h3>
+                            <?php if ($c['colocacao']): ?>
+                                <span class="disp-coloc <?= $classeColocacao($c['colocacao']) ?>"><?= e($c['colocacao']) ?></span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="disp-card">
-                <div class="disp-ano">2025</div>
-                <div class="disp-corpo">
-                    <div class="disp-topo">
-                        <h3>Regional Universitário SC</h3>
-                        <span class="disp-coloc coloc-bronze">3º lugar</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="disp-card">
-                <div class="disp-ano">2025</div>
-                <div class="disp-corpo">
-                    <div class="disp-topo">
-                        <h3>Copa Gaspar de Vôlei</h3>
-                        <span class="disp-coloc coloc-prata">2º lugar</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="disp-card">
-                <div class="disp-ano">2024</div>
-                <div class="disp-corpo">
-                    <div class="disp-topo">
-                        <h3>Torneio Amistoso Vale do Itajaí</h3>
-                        <span class="disp-coloc coloc-neutro">4º lugar</span>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
 
         </div>
     </div>
@@ -164,41 +141,17 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <h2>Conquistas</h2>
         <div class="conquistas-grid">
 
-            <div class="conq-card">
-                <div class="conq-icone">🥈</div>
-                <h4>Vice-campeão regional</h4>
-                <p>Copa IFSC 2026</p>
-            </div>
+            <?php if (empty($conquistas)): ?>
+                <p class="camp-vazio">As conquistas do time vão aparecer aqui.</p>
+            <?php endif; ?>
 
-            <div class="conq-card">
-                <div class="conq-icone">🥇</div>
-                <h4>Campeão integração IFSC</h4>
-                <p>Torneio IFSC 2025</p>
-            </div>
-
-            <div class="conq-card">
-                <div class="conq-icone">🛡️</div>
-                <h4>Melhor defesa</h4>
-                <p>Regional SC 2025</p>
-            </div>
-
-            <div class="conq-card">
-                <div class="conq-icone">🏐</div>
-                <h4>Destaque universitário</h4>
-                <p>Copa Gaspar 2025</p>
-            </div>
-
-            <div class="conq-card">
-                <div class="conq-icone">💥</div>
-                <h4>Melhor saque</h4>
-                <p>Torneio Integração 2025</p>
-            </div>
-
-            <div class="conq-card">
-                <div class="conq-icone">📈</div>
-                <h4>Maior evolução</h4>
-                <p>Avaliação interna 2024</p>
-            </div>
+            <?php foreach ($conquistas as $c): ?>
+                <div class="conq-card">
+                    <div class="conq-icone"><?= e($c['icone'] ?: '🏆') ?></div>
+                    <h4><?= e($c['nome']) ?></h4>
+                    <p><?= e($c['descricao'] ?: ano_da_data($c['data_inicio'])) ?></p>
+                </div>
+            <?php endforeach; ?>
 
         </div>
     </div>
@@ -212,14 +165,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     </div>
 </section>
 
-<footer>
-    <p>StrikeSet Gaspar</p>
-    <div>
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg" alt="Twitter">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg" alt="WhatsApp">
-    </div>
-</footer>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
 
 </body>
 </html>

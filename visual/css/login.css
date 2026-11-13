@@ -292,3 +292,38 @@
     font-size: 2rem;
   }
 }
+
+/* =========================================================
+   ESQUECI / REDEFINIR SENHA (um card só, centralizado)
+========================================================= */
+
+.auth-container--unico {
+  justify-content: center;
+}
+
+.auth-container--unico .auth-card {
+  max-width: 440px;
+}
+
+.auth-alert--aviso {
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.45);
+  color: #facc15;
+  word-break: break-word;
+}
+
+.auth-alert--aviso a {
+  color: #fde68a;
+  font-weight: 700;
+}
+
+/* Link com cara de botão */
+.btn-auth--link {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-auth--link:hover {
+  color: white;
+}

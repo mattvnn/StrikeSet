@@ -13,6 +13,19 @@ if (isset($_GET['cadastro']) && $_GET['cadastro'] === 'sucesso') {
     $sucesso = 'Cadastro realizado com sucesso! Faça seu login.';
 }
 
+if (($_GET['senha'] ?? '') === 'redefinida') {
+    $sucesso = 'Senha alterada com sucesso! Entre com a nova senha.';
+}
+
+/* Página para voltar depois do login (ex.: treinos.php). Só páginas do site. */
+$paginasRetorno = ['treinos.php', 'campeonatos.php', 'galeria.php', 'sobre.php', 'home.php'];
+$voltar = $_GET['voltar'] ?? $_POST['voltar'] ?? '';
+$voltar = in_array($voltar, $paginasRetorno, true) ? $voltar : '';
+
+if ($voltar !== '' && $sucesso === '' && $_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $sucesso = 'Entre na sua conta para continuar.';
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $acao = $_POST['acao'] ?? '';
@@ -168,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             } else {
 
-                header('Location: home.php');
+                header('Location: ' . ($voltar === 'treinos.php' ? 'treinos.php#inscricao' : ($voltar !== '' ? $voltar : 'home.php')));
             }
 
             exit;
@@ -224,6 +237,7 @@ $valor_login = ($acao_enviada === 'login') ? ($_POST['email'] ?? '') : '';
 
             <form class="auth-form" method="POST" action="login.php#login">
                 <input type="hidden" name="acao" value="login">
+                <input type="hidden" name="voltar" value="<?php echo htmlspecialchars($voltar); ?>">
 
                 <div class="form-group">
                     <label for="usuario">E-mail</label>
@@ -236,7 +250,7 @@ $valor_login = ($acao_enviada === 'login') ? ($_POST['email'] ?? '') : '';
                 <button type="submit" class="btn-auth">Entrar</button>
             </form>
             <div class="text-small">
-                <a href="#">Esqueceu a senha?</a>
+                <a href="esqueci_senha.php">Esqueceu a senha?</a>
             </div>
         </div>
 
@@ -316,49 +330,7 @@ $valor_login = ($acao_enviada === 'login') ? ($_POST['email'] ?? '') : '';
 
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
 
-    <script>
-        (function () {
-            var form    = document.getElementById('form-cadastro');
-            var senha   = document.getElementById('senha-cadastro');
-            var repetir = document.getElementById('senha-repetir');
-            var dica    = document.getElementById('senha-hint');
-
-            /* Compara os dois campos de senha e avisa o usuário na hora */
-            function conferir() {
-                if (repetir.value === '') {
-                    repetir.setCustomValidity('');
-                    repetir.classList.remove('campo-erro', 'campo-ok');
-                    dica.textContent = '';
-                    dica.className = 'field-hint';
-                    return;
-                }
-
-                if (senha.value !== repetir.value) {
-                    repetir.setCustomValidity('As senhas não coincidem.');
-                    repetir.classList.add('campo-erro');
-                    repetir.classList.remove('campo-ok');
-                    dica.textContent = 'As senhas não coincidem.';
-                    dica.className = 'field-hint field-hint--erro';
-                } else {
-                    repetir.setCustomValidity('');
-                    repetir.classList.add('campo-ok');
-                    repetir.classList.remove('campo-erro');
-                    dica.textContent = 'As senhas coincidem.';
-                    dica.className = 'field-hint field-hint--ok';
-                }
-            }
-
-            senha.addEventListener('input', conferir);
-            repetir.addEventListener('input', conferir);
-
-            form.addEventListener('submit', function (e) {
-                conferir();
-                if (!form.checkValidity()) {
-                    e.preventDefault();
-                    form.reportValidity();
-                }
-            });
-        })();
-    </script>
+    <script src="visual/js/confere_senha.js"></script>
+    <script>conferirSenhas('form-cadastro');</script>
 </body>
 </html>
