@@ -17,7 +17,6 @@ if (($_GET['senha'] ?? '') === 'redefinida') {
     $sucesso = 'Senha alterada com sucesso! Entre com a nova senha.';
 }
 
-/* Página para voltar depois do login (ex.: treinos.php). Só páginas do site. */
 $paginasRetorno = ['treinos.php', 'campeonatos.php', 'galeria.php', 'sobre.php', 'home.php'];
 $voltar = $_GET['voltar'] ?? $_POST['voltar'] ?? '';
 $voltar = in_array($voltar, $paginasRetorno, true) ? $voltar : '';
@@ -29,12 +28,6 @@ if ($voltar !== '' && $sucesso === '' && $_SERVER['REQUEST_METHOD'] !== 'POST') 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $acao = $_POST['acao'] ?? '';
-
-    /*
-    |--------------------------------------------------------------------------
-    | CADASTRO
-    |--------------------------------------------------------------------------
-    */
 
     if ($acao === 'cadastro') {
 
@@ -124,13 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOGIN
-    |--------------------------------------------------------------------------
-    */
-
     if ($acao === 'login') {
 
         $email = trim($_POST['email'] ?? '');
@@ -189,12 +175,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-/* Em qual card cada mensagem aparece (login ou cadastro) */
 $acao_enviada = $_POST['acao'] ?? '';
 $erro_login    = ($acao_enviada === 'login') ? $erro : '';
 $erro_cadastro = ($acao_enviada === 'cadastro') ? $erro : '';
 
-/* Mantém nome/e-mail preenchidos quando o cadastro dá erro */
 $valor_nome  = ($acao_enviada === 'cadastro') ? ($_POST['nome'] ?? '') : '';
 $valor_email = ($acao_enviada === 'cadastro') ? ($_POST['email'] ?? '') : '';
 $valor_login = ($acao_enviada === 'login') ? ($_POST['email'] ?? '') : '';

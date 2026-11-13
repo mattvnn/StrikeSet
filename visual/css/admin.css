@@ -1,8 +1,3 @@
-/* =========================================================
-   ADMIN - estilos compartilhados entre as páginas do painel
-   (topo, números, filtros, seções, botões, modais, formulários)
-========================================================= */
-
 .pagina-admin {
     display: flex;
     flex-direction: column;
@@ -302,7 +297,6 @@ nav a.active::after {
     border-color: #f87171;
 }
 
-
 .admin-modal-content {
     background: var(--cinza-escuro);
     border: 1px solid var(--cinza-medio);
@@ -431,11 +425,6 @@ nav a.active::after {
     transform: translateY(-1px);
 }
 
-
-/* =========================================================
-   MENSAGENS DE RETORNO
-========================================================= */
-
 .admin-alerta {
     max-width: 1100px;
     margin: 0 auto 28px;
@@ -458,7 +447,6 @@ nav a.active::after {
     color: #f87171;
 }
 
-/* Botões de ação que são <a> ou ficam dentro de <form> */
 a.acao-btn {
     display: inline-flex;
     align-items: center;
@@ -496,10 +484,6 @@ a.acao-btn {
     border: 1px dashed var(--cinza-medio);
     border-radius: 10px;
 }
-
-/* =========================================================
-   TABELAS
-========================================================= */
 
 .tabela-wrapper {
     background: var(--cinza-escuro);
@@ -569,7 +553,6 @@ a.acao-btn {
     padding: 7px 12px;
 }
 
-/* Etiquetas */
 .tag {
     display: inline-block;
     padding: 4px 10px;
@@ -618,7 +601,6 @@ a.acao-btn {
     font-weight: 500;
 }
 
-/* Inputs de data/hora no tema escuro */
 .form-grupo input[type="date"],
 .form-grupo input[type="time"] {
     color-scheme: dark;
@@ -632,10 +614,6 @@ a.acao-btn {
 footer {
     padding: 40px 60px;
 }
-
-/* =========================================================
-   RESPONSIVO
-========================================================= */
 
 @media (max-width: 900px) {
     .admin-hero { padding: 32px 30px; }
@@ -659,7 +637,6 @@ footer {
     .admin-grid { grid-template-columns: 1fr; }
 }
 
-/* O atributo hidden sempre esconde (mesmo em elementos com display:flex) */
 [hidden] {
     display: none !important;
 }

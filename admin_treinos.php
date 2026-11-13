@@ -26,19 +26,10 @@ $statusInscricao = [
     'cancelada' => 'Cancelada'
 ];
 
-
-/*
-|--------------------------------------------------------------------------
-| AÇÕES (POST → redirect → GET)
-|--------------------------------------------------------------------------
-*/
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $acao = $_POST['acao'] ?? '';
     $voltarPara = 'admin_treinos.php';
-
-    /* ---------- Criar / editar treino ---------- */
 
     if ($acao === 'salvar' || $acao === 'editar') {
 
@@ -87,8 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    /* ---------- Excluir treino ---------- */
-
     if ($acao === 'excluir') {
 
         $id = (int) ($_POST['id'] ?? 0);
@@ -99,8 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         flash('sucesso', 'Treino excluído (as inscrições dele também foram removidas).');
     }
-
-    /* ---------- Inscrições: confirmar / cancelar / excluir ---------- */
 
     if (in_array($acao, ['confirmar_inscricao', 'cancelar_inscricao', 'excluir_inscricao'], true)) {
 
@@ -119,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute();
 
-        /* Mantém os filtros que estavam aplicados */
         $voltarPara .= '?' . http_build_query([
             'f_treino' => $_POST['f_treino'] ?? '',
             'f_status' => $_POST['f_status'] ?? '',
@@ -132,13 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| LEITURA
-|--------------------------------------------------------------------------
-*/
-
 $treinos = $conn->query("
     SELECT t.*,
         SUM(i.status = 'pendente')   AS pendentes,
@@ -149,7 +128,6 @@ $treinos = $conn->query("
     ORDER BY FIELD(t.dia, 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'), t.hora_inicio
 ")->fetch_all(MYSQLI_ASSOC);
 
-/* Filtros das inscrições */
 $fTreino = (int) ($_GET['f_treino'] ?? 0);
 $fStatus = $_GET['f_status'] ?? '';
 $fStatus = isset($statusInscricao[$fStatus]) ? $fStatus : '';
@@ -243,8 +221,6 @@ $mensagem = pegar_flash();
             </div>
         <?php endif; ?>
 
-        <!-- ================= TREINOS ================= -->
-
         <div class="admin-secao">
 
             <div class="admin-secao-topo">
@@ -325,8 +301,6 @@ $mensagem = pegar_flash();
             <?php endif; ?>
         </div>
 
-        <!-- ================= INSCRIÇÕES ================= -->
-
         <div class="admin-secao" id="inscricoes">
 
             <div class="admin-secao-topo">
@@ -343,7 +317,7 @@ $mensagem = pegar_flash();
                         <option value="0">Todos os treinos</option>
                         <?php foreach ($treinos as $t): ?>
                             <option value="<?= (int) $t['id'] ?>" <?= $fTreino === (int) $t['id'] ? 'selected' : '' ?>>
-                                <?= e($t['dia'] . ' – ' . $t['titulo']) ?>
+                                <?= e($t['dia'] . ' - ' . $t['titulo']) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -424,8 +398,6 @@ $mensagem = pegar_flash();
     </div>
 </section>
 
-<!-- ================= MODAL CRIAR / EDITAR ================= -->
-
 <div class="modal fade" id="modalTreino" tabindex="-1" aria-labelledby="modalTreinoTitulo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <form method="POST" action="admin_treinos.php" class="modal-content admin-modal-content" id="formTreino">
@@ -496,7 +468,7 @@ $mensagem = pegar_flash();
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-/* Preenche o mesmo modal para "Novo" ou "Editar" */
+
 document.getElementById('modalTreino').addEventListener('show.bs.modal', function (evento) {
     const form = document.getElementById('formTreino');
     const botao = evento.relatedTarget;
@@ -515,7 +487,6 @@ document.getElementById('modalTreino').addEventListener('show.bs.modal', functio
     }
 });
 
-/* Término não pode ser antes do início (confere a cada alteração) */
 (function () {
     const form = document.getElementById('formTreino');
     const conferir = function () {

@@ -19,13 +19,6 @@ $statusLabels = [
 
 $colocacoes = ['1º lugar', '2º lugar', '3º lugar', '4º lugar', 'Participação'];
 
-
-/*
-|--------------------------------------------------------------------------
-| AÇÕES (POST → redirect → GET)
-|--------------------------------------------------------------------------
-*/
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $acao = $_POST['acao'] ?? '';
@@ -118,13 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| LEITURA
-|--------------------------------------------------------------------------
-*/
-
 $todos = $conn->query("
     SELECT *
     FROM campeonatos
@@ -143,7 +129,6 @@ $conquistas = array_values(array_filter($todos, fn($c) => $c['tipo'] === 'conqui
 $hoje = date('Y-m-d');
 $atrasados = count(array_filter($proximos, fn($c) => ($c['data_fim'] ?: $c['data_inicio']) < $hoje));
 
-/* Classe de cor da colocação */
 function classe_colocacao(?string $coloc): string
 {
     return match ($coloc) {
@@ -154,7 +139,6 @@ function classe_colocacao(?string $coloc): string
     };
 }
 
-/* Dados de um campeonato para o modal de edição (vai no data-camp do botão) */
 function dados_modal(array $c): string
 {
     return e(json_encode([
@@ -171,7 +155,6 @@ function dados_modal(array $c): string
     ]));
 }
 
-/* Atributos usados pelos filtros (busca / tipo / status) */
 function atributos_filtro(array $c): string
 {
     $busca = mb_strtolower_seguro($c['nome'] . ' ' . ($c['local'] ?? '') . ' ' . ($c['descricao'] ?? ''));
@@ -184,7 +167,6 @@ function mb_strtolower_seguro(string $t): string
     return function_exists('mb_strtolower') ? mb_strtolower($t, 'UTF-8') : strtolower($t);
 }
 
-/* Botões Editar / Excluir */
 function botoes_acao(array $c): string
 {
     $nome = e($c['nome']);
@@ -298,8 +280,6 @@ $mensagem = pegar_flash();
             </div>
         </div>
 
-        <!-- ================= PRÓXIMOS ================= -->
-
         <div class="admin-secao" data-secao="proximo">
             <div class="admin-secao-topo">
                 <div class="admin-secao-titulo">
@@ -348,8 +328,6 @@ $mensagem = pegar_flash();
             </div>
         </div>
 
-        <!-- ================= DISPUTADOS ================= -->
-
         <div class="admin-secao" data-secao="disputado">
             <div class="admin-secao-topo">
                 <div class="admin-secao-titulo">
@@ -388,8 +366,6 @@ $mensagem = pegar_flash();
             </div>
         </div>
 
-        <!-- ================= CONQUISTAS ================= -->
-
         <div class="admin-secao" data-secao="conquista">
             <div class="admin-secao-topo">
                 <div class="admin-secao-titulo">
@@ -420,8 +396,6 @@ $mensagem = pegar_flash();
 
     </div>
 </section>
-
-<!-- ================= MODAL CRIAR / EDITAR ================= -->
 
 <div class="modal fade" id="modalCampeonato" tabindex="-1" aria-labelledby="modalCampTitulo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -517,7 +491,6 @@ $mensagem = pegar_flash();
     const form = document.getElementById('formCampeonato');
     const campo = (nome) => form.elements[nome];
 
-    /* Mostra só os campos que fazem sentido para o tipo escolhido */
     function ajustarCampos() {
         const tipo = campo('tipo').value;
 
@@ -533,7 +506,6 @@ $mensagem = pegar_flash();
 
     campo('tipo').addEventListener('change', ajustarCampos);
 
-    /* Mesmo modal para "Novo" e "Editar" */
     document.getElementById('modalCampeonato').addEventListener('show.bs.modal', function (evento) {
         const botao = evento.relatedTarget;
         const dados = botao && botao.dataset.camp ? JSON.parse(botao.dataset.camp) : null;
@@ -552,7 +524,6 @@ $mensagem = pegar_flash();
         ajustarCampos();
     });
 
-    /* Data final não pode ser antes do início (confere a cada alteração) */
     function conferirDatas() {
         const ini = campo('data_inicio').value, fim = campo('data_fim').value;
         campo('data_fim').setCustomValidity(fim && ini && fim < ini ? 'A data final não pode ser antes do início.' : '');
@@ -562,12 +533,10 @@ $mensagem = pegar_flash();
     campo('data_fim').addEventListener('input', conferirDatas);
     form.querySelector('.btn-modal-salvar').addEventListener('click', conferirDatas);
 
-    /* Campos escondidos não devem ser enviados com valores de outro tipo */
     form.addEventListener('submit', function () {
         form.querySelectorAll('[data-para][hidden] input, [data-para][hidden] select').forEach((c) => c.value = '');
     });
 
-    /* Filtros: busca, tipo e status */
     const busca = document.getElementById('buscarCampeonato');
     const filtroTipo = document.getElementById('filtroTipo');
     const filtroStatus = document.getElementById('filtroStatus');

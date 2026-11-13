@@ -38,11 +38,7 @@ Treinos, campeonatos e toda energia do nosso time.
 </p>
 </div>
 
-
 <div class="galeria-grid">
-
-
-<!-- CARD TREINO -->
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalTreino">
 
@@ -60,10 +56,6 @@ Treinos, campeonatos e toda energia do nosso time.
 
 </div>
 
-
-
-<!-- CARD CAMPEONATO -->
-
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalCamp">
 
 <img src="visual/images/camp1.avif" alt="Campeonato Regional">
@@ -79,10 +71,6 @@ Treinos, campeonatos e toda energia do nosso time.
 </div>
 
 </div>
-
-
-
-<!-- CARD TIME -->
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalTime">
 
@@ -100,15 +88,11 @@ Treinos, campeonatos e toda energia do nosso time.
 
 </div>
 
-
 </div>
 
 </div>
 
 </section>
-
-
-<!-- MODAL TREINO -->
 
 <div class="modal fade modal-galeria" id="modalTreino" tabindex="-1" aria-hidden="true">
 
@@ -126,18 +110,15 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="modal-body">
 
-
 <div id="carouselTreino" class="carousel slide">
 
 <div class="carousel-inner">
-
 
 <div class="carousel-item active">
 
 <img src="visual/images/treino1.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
-
 
 <div class="carousel-item">
 
@@ -147,13 +128,11 @@ Treinos, campeonatos e toda energia do nosso time.
 
 </div>
 
-
 <button class="carousel-control-prev" data-bs-target="#carouselTreino" data-bs-slide="prev">
 
 <span class="carousel-control-prev-icon"></span>
 
 </button>
-
 
 <button class="carousel-control-next" data-bs-target="#carouselTreino" data-bs-slide="next">
 
@@ -161,7 +140,6 @@ Treinos, campeonatos e toda energia do nosso time.
 
 </button>
 
-
 </div>
 
 </div>
@@ -171,10 +149,6 @@ Treinos, campeonatos e toda energia do nosso time.
 </div>
 
 </div>
-
-
-
-<!-- MODAL CAMPEONATO -->
 
 <div class="modal fade modal-galeria" id="modalCamp" tabindex="-1" aria-hidden="true">
 
@@ -232,10 +206,6 @@ Treinos, campeonatos e toda energia do nosso time.
 
 </div>
 
-
-
-<!-- MODAL TIME -->
-
 <div class="modal fade modal-galeria" id="modalTime" tabindex="-1" aria-hidden="true">
 
 <div class="modal-dialog modal-dialog-centered">
@@ -292,7 +262,6 @@ Treinos, campeonatos e toda energia do nosso time.
 
 </div>
 
-
 <footer>
 
 <p>StrikeSet Gaspar</p>
@@ -308,7 +277,6 @@ Treinos, campeonatos e toda energia do nosso time.
 </div>
 
 </footer>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

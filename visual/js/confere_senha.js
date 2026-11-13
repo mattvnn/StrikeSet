@@ -1,8 +1,3 @@
-/*
- * Confere se "Senha" e "Repetir senha" são iguais enquanto o usuário digita.
- * Usado no cadastro (login.php) e na redefinição de senha.
- * O formulário precisa ter #senha-cadastro, #senha-repetir e #senha-hint.
- */
 function conferirSenhas(formId) {
     var form = document.getElementById(formId);
     if (!form) return;

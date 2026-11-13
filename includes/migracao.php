@@ -1,28 +1,7 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| ATUALIZAÇÃO AUTOMÁTICA DO BANCO
-|--------------------------------------------------------------------------
-|
-| Troca as colunas de data em texto (VARCHAR) por DATE / TIME e cria a
-| tabela da recuperação de senha. Roda SOZINHA no primeiro acesso ao site
-| (chamada pelo conexao.php) — não precisa fazer nada.
-|
-|   - treinos:     horario (texto)               → hora_inicio + hora_fim (TIME)
-|   - campeonatos: data_exibicao (texto) + ano   → data_inicio + data_fim (DATE)
-|
-| Antes de apagar uma coluna antiga, o valor dela é copiado para a tabela
-| backup_datas_antigas (nada se perde).
-|
-| Se algum texto não puder ser convertido (ex.: "a combinar"), a coluna
-| antiga fica e o painel admin mostra um aviso pedindo para editar o item.
-*/
-
-/* Arquivo que marca "banco já atualizado", para não verificar a cada acesso */
 const MIGRACAO_MARCA = __DIR__ . '/../SQL/.banco_atualizado';
 
-/* Uma consulta rápida: ainda existe algo do formato antigo? */
 function banco_precisa_migrar(mysqli $conn): bool
 {
     $r = $conn->query("
@@ -43,10 +22,6 @@ function banco_precisa_migrar(mysqli $conn): bool
     return (int) $r[0] > 0;
 }
 
-/*
-| Chamada em todo acesso pelo conexao.php. Na prática só trabalha uma vez:
-| depois cria o arquivo-marca e passa direto.
-*/
 function migracao_automatica(mysqli $conn): void
 {
     $marca = @file_get_contents(MIGRACAO_MARCA);
@@ -61,7 +36,6 @@ function migracao_automatica(mysqli $conn): void
             return;
         }
 
-        /* Trava: se duas pessoas abrirem o site ao mesmo tempo, só uma migra */
         $trava = $conn->query("SELECT GET_LOCK('strikeset_migracao', 20)")->fetch_row()[0];
 
         if ((int) $trava !== 1) {
@@ -81,13 +55,12 @@ function migracao_automatica(mysqli $conn): void
         @file_put_contents(MIGRACAO_MARCA, $pendencias === 0 ? 'ok' : 'pendente:' . $pendencias);
 
     } catch (Throwable $e) {
-        /* Nunca derruba o site por causa da migração: registra e segue */
+
         error_log('[migracao] ' . $e->getMessage());
         try { $conn->query("SELECT RELEASE_LOCK('strikeset_migracao')"); } catch (Throwable $e2) {}
     }
 }
 
-/* Depois que o admin edita um treino/campeonato, verifica de novo no próximo acesso */
 function migracao_reverificar(): void
 {
     $marca = @file_get_contents(MIGRACAO_MARCA);
@@ -97,7 +70,6 @@ function migracao_reverificar(): void
     }
 }
 
-/* Itens que não deu para converter (para o aviso no painel admin) */
 function migracao_pendencias(mysqli $conn): array
 {
     $marca = @file_get_contents(MIGRACAO_MARCA);
@@ -128,14 +100,13 @@ function migracao_pendencias(mysqli $conn): array
     }
 
     if (!$itens) {
-        /* Já foi tudo corrigido: deixa a próxima visita terminar a limpeza */
+
         migracao_reverificar();
     }
 
     return $itens;
 }
 
-/* Guarda o valor da coluna antiga antes de apagá-la */
 function mig_backup(mysqli $conn, string $tabela, string $coluna): void
 {
     $conn->query("
@@ -188,7 +159,6 @@ function mig_existe_tabela(mysqli $conn, string $tabela): bool
     return (bool) $stmt->get_result()->fetch_row();
 }
 
-/* "19h00 - 21h00", "19:30 às 21:30", "18h-20h", "9h" → ['19:00:00', '21:00:00'] */
 function mig_ler_horario(?string $texto): array
 {
     preg_match_all('/(\d{1,2})\s*(?:[:hH]\s*(\d{2})?)/u', (string) $texto, $m, PREG_SET_ORDER);
@@ -205,11 +175,6 @@ function mig_ler_horario(?string $texto): array
     return [$horas[0] ?? null, $horas[1] ?? null];
 }
 
-/*
-| Converte textos de data em [inicio, fim, aproximada]:
-|   "2026-06-14" | "14/06/2026" | "14 e 15 de junho de 2026" | "28 de junho a 2 de julho de 2026"
-|   "5 de julho de 2026" | "Setembro de 2026" (vira dia 1, marcada como aproximada)
-*/
 function mig_ler_data(?string $texto, ?int $anoReserva): array
 {
     $t = trim((string) $texto);
@@ -234,27 +199,22 @@ function mig_ler_data(?string $texto, ?int $anoReserva): array
         return [$ini, $fim, false];
     }
 
-    /* 28 de junho a 2 de julho de 2026 */
     if (preg_match("/(\d{1,2})\s+de\s+($nomes)\s+(?:a|até)\s+(\d{1,2})\s+de\s+($nomes)\s+de\s+(\d{4})/u", $t, $x)) {
         return [$d((int) $x[5], $meses[$x[2]], (int) $x[1]), $d((int) $x[5], $meses[$x[4]], (int) $x[3]), false];
     }
 
-    /* 14 e 15 de junho de 2026 | 14 a 18 de junho de 2026 */
     if (preg_match("/(\d{1,2})\s*(?:e|a|até|-)\s*(\d{1,2})\s+de\s+($nomes)\s+(?:de\s+)?(\d{4})/u", $t, $x)) {
         return [$d((int) $x[4], $meses[$x[3]], (int) $x[1]), $d((int) $x[4], $meses[$x[3]], (int) $x[2]), false];
     }
 
-    /* 5 de julho de 2026 */
     if (preg_match("/(\d{1,2})\s+de\s+($nomes)\s+(?:de\s+)?(\d{4})/u", $t, $x)) {
         return [$d((int) $x[3], $meses[$x[2]], (int) $x[1]), null, false];
     }
 
-    /* Setembro de 2026 */
     if (preg_match("/($nomes)\s+(?:de\s+)?(\d{4})/u", $t, $x)) {
         return [$d((int) $x[2], $meses[$x[1]], 1), null, true];
     }
 
-    /* Só o ano (coluna "ano" antiga) */
     if ($t === '' && $anoReserva) {
         return [sprintf('%04d-01-01', $anoReserva), null, true];
     }
@@ -262,21 +222,12 @@ function mig_ler_data(?string $texto, ?int $anoReserva): array
     return [null, null, false];
 }
 
-
-/*
-| Faz a migração. $log recebe cada linha do relatório.
-| Devolve quantos itens não puderam ser convertidos (0 = tudo certo).
-*/
 function migrar_banco(mysqli $conn, callable $log): int
 {
     $pendencias = 0;
 
     $log('=== Migração de datas - StrikeSet ===');
     $log('');
-
-    /* ---------------------------------------------------------
-     | 1) Tabela de recuperação de senha
-     --------------------------------------------------------- */
 
     if (!mig_existe_tabela($conn, 'recuperacao_senha')) {
         $conn->query("
@@ -298,10 +249,6 @@ function migrar_banco(mysqli $conn, callable $log): int
     } else {
         $log('[--] Tabela recuperacao_senha já existe.');
     }
-
-    /* ---------------------------------------------------------
-     | 2) Treinos: horario → hora_inicio / hora_fim
-     --------------------------------------------------------- */
 
     $log('');
     $log('--- Treinos ---');
@@ -350,16 +297,11 @@ function migrar_banco(mysqli $conn, callable $log): int
         $log("[!!] $semHora treino(s) sem hora_inicio. A coluna antiga \"horario\" foi mantida.");
     }
 
-    /* ---------------------------------------------------------
-     | 3) Campeonatos: data_exibicao + ano → data_inicio / data_fim
-     --------------------------------------------------------- */
-
     $log('');
     $log('--- Campeonatos ---');
 
     $cols = mig_colunas($conn, 'campeonatos');
 
-    /* Se data_inicio/data_fim existirem como texto, guarda o texto e recria como DATE */
     foreach (['data_inicio', 'data_fim'] as $c) {
         if (isset($cols[$c]) && $cols[$c] !== 'date') {
             $conn->query("ALTER TABLE campeonatos CHANGE $c {$c}_texto VARCHAR(100) NULL");
@@ -420,7 +362,7 @@ function migrar_banco(mysqli $conn, callable $log): int
                     try {
                         $conn->query("ALTER TABLE campeonatos DROP INDEX idx_campeonatos_ano");
                     } catch (mysqli_sql_exception $e) {
-                        /* índice já não existia */
+
                     }
                 }
                 mig_backup($conn, 'campeonatos', $c);

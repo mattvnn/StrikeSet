@@ -78,7 +78,6 @@ require_once __DIR__ . '/conexao.php';
 
     <div class="admin-inner">
 
-        <!-- FILTROS -->
         <div class="admin-filtros">
 
             <input
@@ -109,7 +108,6 @@ require_once __DIR__ . '/conexao.php';
 
 <div class="admin-grid">
 
-    <!-- TREINOS -->
     <div class="admin-card"
          data-categoria="treinos"
          data-status="publicado">
@@ -167,7 +165,6 @@ require_once __DIR__ . '/conexao.php';
         </div>
     </div>
 
-    <!-- CAMPEONATO -->
     <div class="admin-card"
          data-categoria="campeonatos"
          data-status="publicado">
@@ -225,7 +222,6 @@ require_once __DIR__ . '/conexao.php';
         </div>
     </div>
 
-    <!-- TIME -->
     <div class="admin-card"
          data-categoria="time"
          data-status="publicado">
@@ -283,7 +279,6 @@ require_once __DIR__ . '/conexao.php';
         </div>
     </div>
 
-    <!-- OCULTO -->
     <div class="admin-card"
          data-categoria="bastidores"
          data-status="oculto">
@@ -329,7 +324,6 @@ require_once __DIR__ . '/conexao.php';
 
 </div>
 
-<!-- MODAL NOVO -->
 <div class="modal fade" id="modalNovoAlbum" tabindex="-1">
 
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -418,7 +412,6 @@ require_once __DIR__ . '/conexao.php';
     </div>
 </div>
 
-<!-- MODAL EDITAR -->
 <div class="modal fade" id="modalEditarAlbum" tabindex="-1">
 
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -486,7 +479,6 @@ Preparação da equipe para o campeonato regional.
 
                     </div>
 
-                    <!-- NOVO -->
                     <div class="form-grupo">
 
                         <label>Adicionar fotos</label>

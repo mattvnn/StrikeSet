@@ -6,10 +6,6 @@ $usuario = getenv('DB_USER');
 $senha = getenv('DB_PASSWORD');
 $banco = getenv('DB_NAME');
 
-/*
-| SSL ligado por padrão (banco na nuvem).
-| Para um MySQL local sem SSL, coloque DB_SSL=0 no .env.
-*/
 $usarSsl = getenv('DB_SSL') !== '0';
 
 $conn = mysqli_init();
@@ -44,10 +40,8 @@ try {
 
 $conn->set_charset("utf8mb4");
 
-/* Datas e horas do PHP no fuso de Santa Catarina */
 date_default_timezone_set('America/Sao_Paulo');
 
-/* Atualiza o banco antigo sozinho no primeiro acesso (datas em texto → DATE/TIME) */
 require_once __DIR__ . '/includes/migracao.php';
 
 if (!defined('SEM_MIGRACAO_AUTOMATICA')) {

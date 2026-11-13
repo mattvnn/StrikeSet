@@ -1,12 +1,8 @@
-/* ===== GALERIA - ESTILOS ESPECIFICOS ===== */
-
-/* Secao Principal */
 .galeria-section {
     flex: 1;
     padding: 60px 40px 80px;
 }
 
-/* Cabecalho da Galeria */
 .galeria-header {
     text-align: center;
     margin-bottom: 60px;
@@ -28,7 +24,6 @@
     line-height: 1.6;
 }
 
-/* Grid de Cards */
 .galeria-grid {
     display: flex;
     justify-content: center;
@@ -38,7 +33,6 @@
     margin: 0 auto;
 }
 
-/* Cards */
 .galeria-card {
     background: var(--cinza-escuro);
     border-radius: 14px;
@@ -54,7 +48,6 @@
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-/* Imagem do card */
 .galeria-card img {
     width: 100%;
     height: 230px;
@@ -62,7 +55,6 @@
     border-top: 4px solid var(--laranja);
 }
 
-/* Corpo do card */
 .galeria-card-body {
     padding: 22px;
 }
@@ -86,14 +78,9 @@
     margin-top: 12px;
 }
 
-/* Animacao de entrada dos cards */
 .galeria-card:nth-child(1) { animation-delay: 0.1s; }
 .galeria-card:nth-child(2) { animation-delay: 0.2s; }
 .galeria-card:nth-child(3) { animation-delay: 0.3s; }
-
-/* Modal / Lightbox
-   A foto abre num tamanho confortável: nunca passa de ~70% da altura
-   da tela e mantém a proporção (sem cortar), com fundo escuro atrás. */
 
 .modal-galeria .modal-dialog {
     max-width: min(760px, 92vw);
@@ -139,7 +126,6 @@
     border-radius: 0;
 }
 
-/* Setas sempre visíveis, com fundo para aparecer em fotos claras */
 .modal-galeria .carousel-control-prev,
 .modal-galeria .carousel-control-next {
     width: 54px;
@@ -161,12 +147,10 @@
     background-color: var(--laranja);
 }
 
-/* Fundo da página mais escuro quando a foto está aberta */
 .modal-backdrop.show {
     opacity: 0.85;
 }
 
-/* Tela deitada (celular na horizontal / notebook baixo): foto ainda menor */
 @media (max-height: 560px) and (orientation: landscape) {
     .modal-galeria .modal-dialog {
         max-width: min(620px, 80vw);
@@ -182,8 +166,6 @@
         max-height: calc(100vh - 90px);
     }
 }
-
-/* ===== RESPONSIVIDADE ===== */
 
 @media (max-width: 1200px) {
     .galeria-card {

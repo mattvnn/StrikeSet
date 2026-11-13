@@ -1,15 +1,5 @@
--- =========================================================
--- StrikeSet Gaspar - criação das tabelas (banco NOVO, vazio)
---
--- Se o banco já existe com dados, NÃO rode este arquivo:
--- use o SQL/migrar_datas.php (veja o README no topo dele).
--- =========================================================
-
 SET NAMES utf8mb4;
 
--- ---------------------------------------------------------
--- Usuários
--- ---------------------------------------------------------
 CREATE TABLE usuarios (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     nome VARCHAR(150) NOT NULL,
@@ -25,10 +15,6 @@ CREATE TABLE usuarios (
     UNIQUE KEY uk_usuarios_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------
--- Recuperação de senha ("Esqueci minha senha")
--- Guarda só o HASH do token; o token em si vai no link do e-mail.
--- ---------------------------------------------------------
 CREATE TABLE recuperacao_senha (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     usuario_id INT UNSIGNED NOT NULL,
@@ -47,9 +33,6 @@ CREATE TABLE recuperacao_senha (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------
--- Treinos (horário em TIME, não mais em texto)
--- ---------------------------------------------------------
 CREATE TABLE treinos (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     dia ENUM('SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB') NOT NULL,
@@ -66,9 +49,6 @@ CREATE TABLE treinos (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------
--- Campeonatos (datas em DATE; o ano sai da própria data)
--- ---------------------------------------------------------
 CREATE TABLE campeonatos (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     nome VARCHAR(200) NOT NULL,
@@ -90,9 +70,6 @@ CREATE TABLE campeonatos (
     KEY idx_campeonatos_data (data_inicio)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------
--- Álbuns da galeria
--- ---------------------------------------------------------
 CREATE TABLE albuns (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     nome VARCHAR(150) NOT NULL,
@@ -108,9 +85,6 @@ CREATE TABLE albuns (
     KEY idx_albuns_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------
--- Fotos
--- ---------------------------------------------------------
 CREATE TABLE fotos (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     album_id INT UNSIGNED NOT NULL,
@@ -131,9 +105,6 @@ CREATE TABLE fotos (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------
--- Inscrições dos jogadores nos treinos
--- ---------------------------------------------------------
 CREATE TABLE inscricoes_treino (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     usuario_id INT UNSIGNED NOT NULL,

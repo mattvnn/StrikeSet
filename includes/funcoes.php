@@ -1,12 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Funções auxiliares usadas em várias páginas
-|--------------------------------------------------------------------------
-*/
-
-/* Escapa texto para HTML (atalho para htmlspecialchars) */
 function e($texto): string
 {
     return htmlspecialchars((string) ($texto ?? ''), ENT_QUOTES, 'UTF-8');
@@ -23,7 +16,6 @@ const MESES_PT_CURTO = [
     7 => 'jul', 8 => 'ago', 9 => 'set', 10 => 'out', 11 => 'nov', 12 => 'dez'
 ];
 
-/* Converte 'AAAA-MM-DD' em [ano, mes, dia] ou null se vazio/inválido */
 function partes_data(?string $data): ?array
 {
     if (!$data || !preg_match('/^(\d{4})-(\d{2})-(\d{2})/', $data, $m)) {
@@ -33,10 +25,6 @@ function partes_data(?string $data): ?array
     return [(int) $m[1], (int) $m[2], (int) $m[3]];
 }
 
-/*
-| Data por extenso a partir de uma data DATE do banco.
-| Ex.: '2026-07-05' → '5 de julho de 2026'
-*/
 function data_extenso(?string $data): string
 {
     $p = partes_data($data);
@@ -50,7 +38,6 @@ function data_extenso(?string $data): string
     return $dia . ' de ' . MESES_PT[$mes] . ' de ' . $ano;
 }
 
-/* Ex.: '2026-01-10' → '10 jan 2026' */
 function data_curta(?string $data): string
 {
     $p = partes_data($data);
@@ -64,14 +51,6 @@ function data_curta(?string $data): string
     return $dia . ' ' . MESES_PT_CURTO[$mes] . ' ' . $ano;
 }
 
-/*
-| Período de um campeonato (data_inicio e data_fim do tipo DATE).
-|   só início ................ 5 de julho de 2026
-|   mesmo mês, dias seguidos . 14 e 15 de junho de 2026
-|   mesmo mês ................ 14 a 18 de junho de 2026
-|   meses diferentes ......... 28 de junho a 2 de julho de 2026
-|   anos diferentes .......... 30 de dezembro de 2026 a 2 de janeiro de 2027
-*/
 function periodo_extenso(?string $inicio, ?string $fim = null): string
 {
     $i = partes_data($inicio);
@@ -101,7 +80,6 @@ function periodo_extenso(?string $inicio, ?string $fim = null): string
     return $di . $ligacao . $df . ' de ' . MESES_PT[$mf] . ' de ' . $af;
 }
 
-/* Ano de uma data DATE ('2026-07-05' → '2026') */
 function ano_da_data(?string $data): string
 {
     $p = partes_data($data);
@@ -109,35 +87,31 @@ function ano_da_data(?string $data): string
     return $p ? (string) $p[0] : '';
 }
 
-/* Hora TIME do banco para exibição ('19:00:00' → '19h00') */
 function hora_formatada(?string $hora): string
 {
     if (!$hora || !preg_match('/^(\d{1,2}):(\d{2})/', $hora, $m)) {
         return '';
     }
 
-    return sprintf('%02dh%s', (int) $m[1], $m[2]);
+    return sprintf('%02d:%s', (int) $m[1], $m[2]);
 }
 
-/* Horário de um treino ('19:00:00', '21:00:00' → '19h00 – 21h00') */
 function horario_treino(?string $inicio, ?string $fim = null): string
 {
     $texto = hora_formatada($inicio);
 
     if ($fim) {
-        $texto .= ' – ' . hora_formatada($fim);
+        $texto .= ' - ' . hora_formatada($fim);
     }
 
     return $texto;
 }
 
-/* Valor para <input type="time"> ('19:00:00' → '19:00') */
 function hora_input(?string $hora): string
 {
     return $hora ? substr($hora, 0, 5) : '';
 }
 
-/* Valida 'AAAA-MM-DD' vindo de <input type="date">; devolve null se inválida */
 function validar_data(?string $data): ?string
 {
     $data = trim((string) $data);
@@ -149,7 +123,6 @@ function validar_data(?string $data): ?string
     return checkdate((int) $m[2], (int) $m[3], (int) $m[1]) ? $data : null;
 }
 
-/* Valida 'HH:MM' vindo de <input type="time">; devolve 'HH:MM:00' ou null */
 function validar_hora(?string $hora): ?string
 {
     $hora = trim((string) $hora);
@@ -161,7 +134,6 @@ function validar_hora(?string $hora): ?string
     return $m[1] . ':' . $m[2] . ':00';
 }
 
-/* Mensagem rápida que sobrevive a um redirect (padrão POST → redirect → GET) */
 function flash(string $tipo, string $texto): void
 {
     $_SESSION['flash'] = ['tipo' => $tipo, 'texto' => $texto];

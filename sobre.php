@@ -46,7 +46,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 <section class="sobre-historia">
     <div class="sobre-historia-inner">
 
-
         <h2 class="sobre-section-titulo">Como começou</h2>
 
         <div class="sobre-historia-card">
@@ -72,7 +71,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 <section class="sobre-mvv">
     <div class="sobre-mvv-inner">
-
 
         <h2 class="sobre-section-titulo">O que buscamos</h2>
 
@@ -114,7 +112,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 <section class="sobre-diferenciais">
     <div class="sobre-diferenciais-inner">
-
 
         <h2 class="sobre-section-titulo">Diferenciais</h2>
 

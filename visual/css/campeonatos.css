@@ -577,8 +577,6 @@
     }
 }
 
-
-/* Mensagem quando uma seção ainda não tem itens */
 .camp-vazio {
     grid-column: 1 / -1;
     color: var(--cinza-texto);

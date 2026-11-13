@@ -1,12 +1,8 @@
-/* ===== TREINOS - ESTILOS ESPECIFICOS ===== */
-
-/* Secao Principal */
 .treinos-section {
     flex: 1;
     padding: 60px 40px 80px;
 }
 
-/* Cabecalho */
 .treinos-header {
     text-align: center;
     margin-bottom: 60px;
@@ -39,7 +35,6 @@
     font-size: 1rem;
 }
 
-/* Titulo de Secao */
 .section-title {
     text-align: center;
     color: white;
@@ -59,7 +54,6 @@
     border-radius: 2px;
 }
 
-/* Grid do Cronograma */
 .cronograma-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -68,7 +62,6 @@
     margin: 0 auto 80px;
 }
 
-/* Card de Treino */
 .treino-card {
     background: var(--cinza-escuro);
     border-radius: 14px;
@@ -120,7 +113,6 @@
     line-height: 1.5;
 }
 
-/* Tags de Nivel */
 .nivel {
     display: inline-block;
     padding: 5px 12px;
@@ -154,7 +146,6 @@
     border: 1px solid var(--laranja);
 }
 
-/* Animacao escalonada dos cards */
 .treino-card:nth-child(1) { animation-delay: 0.05s; }
 .treino-card:nth-child(2) { animation-delay: 0.1s; }
 .treino-card:nth-child(3) { animation-delay: 0.15s; }
@@ -162,7 +153,6 @@
 .treino-card:nth-child(5) { animation-delay: 0.25s; }
 .treino-card:nth-child(6) { animation-delay: 0.3s; }
 
-/* ===== FORMULARIO DE INSCRICAO ===== */
 .inscricao-wrapper {
     max-width: 900px;
     margin: 0 auto;
@@ -267,7 +257,6 @@
     box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
 }
 
-/* Feedback do formulario */
 .form-feedback {
     text-align: center;
     margin-top: 10px;
@@ -283,7 +272,6 @@
     color: #22c55e;
 }
 
-/* ===== RESPONSIVIDADE ===== */
 @media (max-width: 992px) {
     .treinos-header h1 {
         font-size: 2.8rem;
@@ -340,11 +328,6 @@
     }
 }
 
-
-/* =========================================================
-   INSCRIÇÃO NOS TREINOS
-========================================================= */
-
 .sem-registros {
     grid-column: 1 / -1;
     text-align: center;
@@ -376,7 +359,6 @@
     font-size: 0.85rem;
 }
 
-/* Botão "Quero participar" no card */
 .treino-btn {
     display: block;
     margin-top: 16px;
@@ -395,7 +377,6 @@
     color: white;
 }
 
-/* Card de um treino em que o usuário já está inscrito */
 .treino-card--inscrito {
     border-top-color: var(--verde);
 }
@@ -419,7 +400,6 @@
     color: #facc15;
 }
 
-/* Mensagem de retorno em caixa */
 .form-feedback--caixa {
     padding: 12px 16px;
     border-radius: 8px;
@@ -437,7 +417,6 @@
     border: 1px solid rgba(239, 68, 68, 0.45);
 }
 
-/* Visitante sem login */
 .inscricao-login {
     display: flex;
     gap: 14px;
@@ -461,7 +440,6 @@
     color: white;
 }
 
-/* Minhas inscrições */
 .minhas-inscricoes {
     margin-top: 30px;
 }

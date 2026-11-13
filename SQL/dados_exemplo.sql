@@ -1,8 +1,3 @@
--- =========================================================
--- Dados de exemplo (opcional) - rode DEPOIS do criacao_tabelas.sql
--- São os mesmos campeonatos que antes ficavam fixos no HTML.
--- =========================================================
-
 SET NAMES utf8mb4;
 
 INSERT INTO treinos (dia, titulo, hora_inicio, hora_fim, descricao, nivel) VALUES

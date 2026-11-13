@@ -10,10 +10,9 @@ require_once __DIR__ . '/includes/email.php';
 
 $erro = '';
 $enviado = false;
-$linkDev = '';      /* só aparece com APP_DEBUG=1 e sem SMTP configurado */
+$linkDev = '';
 $email = '';
 
-/* Sem SMTP no .env não dá para mandar e-mail: avisa em vez de fingir que enviou */
 $emailDisponivel = smtp_configurado() || getenv('APP_DEBUG') === '1';
 
 if ($emailDisponivel && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -38,7 +37,6 @@ if ($emailDisponivel && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($usuario) {
 
-            /* Evita spam: no máximo um pedido a cada 2 minutos por usuário */
             $stmt = $conn->prepare("
                 SELECT criado_em
                 FROM recuperacao_senha
@@ -55,13 +53,11 @@ if ($emailDisponivel && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($podeEnviar) {
 
-                /* Token aleatório: vai no link; no banco fica só o hash */
                 $token = bin2hex(random_bytes(32));
                 $tokenHash = hash('sha256', $token);
-                $expiraEm = date('Y-m-d H:i:s', time() + 3600); /* 1 hora */
+                $expiraEm = date('Y-m-d H:i:s', time() + 3600);
                 $agora = date('Y-m-d H:i:s');
 
-                /* Invalida pedidos anteriores ainda não usados */
                 $stmt = $conn->prepare("
                     UPDATE recuperacao_senha
                     SET usado_em = ?
@@ -121,7 +117,6 @@ if ($emailDisponivel && $_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        /* A mensagem é sempre a mesma, exista o e-mail ou não (não revela quem tem conta) */
         $enviado = true;
     }
 }

@@ -11,7 +11,6 @@ $token = (string) ($_GET['token'] ?? $_POST['token'] ?? '');
 $erro = '';
 $pedido = null;
 
-/* Procura um pedido válido: token existe, não foi usado e não expirou */
 if (preg_match('/^[a-f0-9]{64}$/', $token)) {
 
     $tokenHash = hash('sha256', $token);
@@ -56,7 +55,6 @@ if ($pedido && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('si', $hash, $pedido['usuario_id']);
         $stmt->execute();
 
-        /* Marca este e qualquer outro pedido pendente do usuário como usado */
         $stmt = $conn->prepare("
             UPDATE recuperacao_senha
             SET usado_em = ?

@@ -17,7 +17,6 @@ $todos = $conn->query("
         id DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
-/* Próximos que já passaram da data não aparecem mais como "próximos" */
 $hoje = date('Y-m-d');
 
 $proximos = array_filter($todos, fn($c) => $c['tipo'] === 'proximo'
@@ -169,4 +168,3 @@ $classeColocacao = fn($coloc) => match ($coloc) {
 
 </body>
 </html>
-

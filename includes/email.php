@@ -1,32 +1,10 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Envio de e-mail por SMTP (sem bibliotecas externas)
-|--------------------------------------------------------------------------
-|
-| Configure no .env:
-|   SMTP_HOST=smtp.gmail.com
-|   SMTP_PORT=465            (465 = SSL direto | 587 = STARTTLS)
-|   SMTP_USER=seuemail@gmail.com
-|   SMTP_PASS=senha-de-app   (no Gmail use uma "Senha de app", não a senha normal)
-|   SMTP_FROM=seuemail@gmail.com
-|   SMTP_FROM_NAME=StrikeSet Gaspar
-|   SMTP_SECURE=             (opcional: ssl | tls | none — padrão: ssl na 465, tls nas outras.
-|                             "none" só para servidor de teste local, ex.: Mailpit)
-|
-| Se SMTP_HOST estiver vazio, smtp_configurado() devolve false.
-*/
-
 function smtp_configurado(): bool
 {
     return (string) getenv('SMTP_HOST') !== '' && (string) getenv('SMTP_USER') !== '';
 }
 
-/*
-| Envia um e-mail em HTML (com versão em texto puro).
-| Devolve true se o servidor aceitou a mensagem.
-*/
 function enviar_email(string $para, string $nomePara, string $assunto, string $html, string $texto): bool
 {
     if (!smtp_configurado()) {
@@ -54,7 +32,6 @@ function enviar_email(string $para, string $nomePara, string $assunto, string $h
 
     stream_set_timeout($sock, 15);
 
-    /* Lê a resposta do servidor (pode ter várias linhas) e confere o código */
     $ler = function (array $esperados) use ($sock): bool {
         $resposta = '';
 

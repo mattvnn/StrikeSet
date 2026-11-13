@@ -10,13 +10,6 @@ require_once __DIR__ . '/includes/funcoes.php';
 $logado = isset($_SESSION['usuario_id']);
 $usuarioId = $logado ? (int) $_SESSION['usuario_id'] : 0;
 
-
-/*
-|--------------------------------------------------------------------------
-| AÇÕES (inscrever / cancelar) → sempre redireciona no final (POST → GET)
-|--------------------------------------------------------------------------
-*/
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$logado) {
@@ -26,8 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $acao = $_POST['acao'] ?? '';
     $treinoId = (int) ($_POST['treino_id'] ?? 0);
-
-    /* ---------------- INSCREVER ---------------- */
 
     if ($acao === 'inscrever') {
 
@@ -65,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             } elseif ($existente) {
 
-                /* Tinha cancelado antes: reativa a mesma inscrição */
                 $stmt = $conn->prepare("
                     UPDATE inscricoes_treino
                     SET status = 'pendente', telefone = ?, criado_em = CURRENT_TIMESTAMP
@@ -93,8 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    /* ---------------- CANCELAR ---------------- */
-
     if ($acao === 'cancelar') {
 
         $stmt = $conn->prepare("
@@ -114,13 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| LEITURA
-|--------------------------------------------------------------------------
-*/
-
 $treinos = $conn->query("
     SELECT
         t.id, t.dia, t.titulo, t.hora_inicio, t.hora_fim, t.descricao, t.nivel,
@@ -130,7 +111,6 @@ $treinos = $conn->query("
     ORDER BY FIELD(t.dia, 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB'), t.hora_inicio
 ")->fetch_all(MYSQLI_ASSOC);
 
-/* Inscrições do usuário logado, indexadas pelo id do treino */
 $minhas = [];
 $ultimoTelefone = '';
 
@@ -151,7 +131,6 @@ if ($logado) {
         $minhas[(int) $i['treino_id']] = $i;
     }
 
-    /* Sugere o telefone usado na última inscrição */
     $stmt = $conn->prepare("
         SELECT telefone FROM inscricoes_treino
         WHERE usuario_id = ? AND telefone IS NOT NULL AND telefone <> ''
@@ -162,7 +141,6 @@ if ($logado) {
     $ultimoTelefone = $stmt->get_result()->fetch_row()[0] ?? '';
 }
 
-/* Inscrição "ativa" = pendente ou confirmada */
 $ativa = fn($treinoId) => isset($minhas[$treinoId]) && $minhas[$treinoId]['status'] !== 'cancelada';
 
 $disponiveis = array_values(array_filter($treinos, fn($t) => !$ativa((int) $t['id'])));
@@ -303,7 +281,7 @@ $mensagem = pegar_flash();
                             <?php foreach ($disponiveis as $treino): ?>
                                 <option value="<?= (int) $treino['id'] ?>"
                                     <?= (int) $treino['id'] === $treinoEscolhido ? 'selected' : '' ?>>
-                                    <?= e($treino['dia']) ?> – <?= e($treino['titulo']) ?>
+                                    <?= e($treino['dia']) ?> - <?= e($treino['titulo']) ?>
                                     (<?= e(horario_treino($treino['hora_inicio'], $treino['hora_fim'])) ?>)
                                 </option>
                             <?php endforeach; ?>

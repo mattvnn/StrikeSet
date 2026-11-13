@@ -19,9 +19,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 <link rel="stylesheet" href="visual/css/global.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="visual/css/welcome.css?v=<?php echo time(); ?>">
 
-
 </head>
-
 
 <body class="pagina-home welcome-page">
 
@@ -46,7 +44,6 @@ Explore as seções abaixo para começar sua jornada com a gente.
 
 </section>
 
-
 <section class="container cards-home">
 
 <div class="row g-4 justify-content-center">
@@ -66,7 +63,6 @@ Explore as seções abaixo para começar sua jornada com a gente.
 
 </div>
 
-
 <div class="col-md-6 col-lg-3">
 
 <a href="campeonatos.php" class="card-link">
@@ -82,7 +78,6 @@ Explore as seções abaixo para começar sua jornada com a gente.
 
 </div>
 
-
 <div class="col-md-6 col-lg-3">
 
 <a href="galeria.php" class="card-link">
@@ -97,7 +92,6 @@ Explore as seções abaixo para começar sua jornada com a gente.
 </a>
 
 </div>
-
 
 <div class="col-md-6 col-lg-3">
 
@@ -117,7 +111,6 @@ Explore as seções abaixo para começar sua jornada com a gente.
 </div>
 
 </section>
-
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 

@@ -4,7 +4,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-/* Marca o link da página atual como ativo */
 $pagina_atual = basename($_SERVER['PHP_SELF']);
 
 function ativo_admin($arquivo, $pagina_atual) {
