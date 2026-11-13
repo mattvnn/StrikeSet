@@ -46,7 +46,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalTreino">
 
-<img src="visual/images/treino1.avif">
+<img src="visual/images/treino1.avif" alt="Treinos do StrikeSet">
 
 <div class="galeria-card-body">
 
@@ -66,7 +66,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalCamp">
 
-<img src="visual/images/camp1.avif">
+<img src="visual/images/camp1.avif" alt="Campeonato Regional">
 
 <div class="galeria-card-body">
 
@@ -86,7 +86,7 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="galeria-card" data-bs-toggle="modal" data-bs-target="#modalTime">
 
-<img src="visual/images/time1.avif">
+<img src="visual/images/time1.avif" alt="Foto do time 2026">
 
 <div class="galeria-card-body">
 
@@ -134,14 +134,14 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="carousel-item active">
 
-<img src="visual/images/treino1.avif" class="d-block w-100">
+<img src="visual/images/treino1.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
 
 <div class="carousel-item">
 
-<img src="visual/images/treino2.avif" class="d-block w-100">
+<img src="visual/images/treino2.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
@@ -198,13 +198,13 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="carousel-item active">
 
-<img src="visual/images/camp1.avif" class="d-block w-100">
+<img src="visual/images/camp1.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
 <div class="carousel-item">
 
-<img src="visual/images/camp2.avif" class="d-block w-100">
+<img src="visual/images/camp2.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
@@ -258,13 +258,13 @@ Treinos, campeonatos e toda energia do nosso time.
 
 <div class="carousel-item active">
 
-<img src="visual/images/time1.avif" class="d-block w-100">
+<img src="visual/images/time1.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 
 <div class="carousel-item">
 
-<img src="visual/images/time2.avif" class="d-block w-100">
+<img src="visual/images/time2.avif" alt="Foto da galeria" class="d-block w-100">
 
 </div>
 

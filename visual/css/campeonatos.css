@@ -14,7 +14,7 @@
     min-height: 500px;
     display: flex;
     align-items: center;
-    background-image: url("camp-hero.avif");
+    background-image: url("../images/camp-hero.avif");
     background-size: cover;
     background-position:center 30%;
 }

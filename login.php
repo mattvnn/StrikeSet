@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($stmt->execute()) {
 
                     header(
-                        'Location: login.php?cadastro=sucesso'
+                        'Location: login.php?cadastro=sucesso#login'
                     );
 
                     exit;
@@ -175,6 +175,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+/* Em qual card cada mensagem aparece (login ou cadastro) */
+$acao_enviada = $_POST['acao'] ?? '';
+$erro_login    = ($acao_enviada === 'login') ? $erro : '';
+$erro_cadastro = ($acao_enviada === 'cadastro') ? $erro : '';
+
+/* Mantém nome/e-mail preenchidos quando o cadastro dá erro */
+$valor_nome  = ($acao_enviada === 'cadastro') ? ($_POST['nome'] ?? '') : '';
+$valor_email = ($acao_enviada === 'cadastro') ? ($_POST['email'] ?? '') : '';
+$valor_login = ($acao_enviada === 'login') ? ($_POST['email'] ?? '') : '';
 ?>
 
 <!DOCTYPE html>
@@ -192,163 +202,163 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <main class="auth-container">
 
-      <?php if ($erro): ?>
-    <div class="alert alert-danger">
-        <?= htmlspecialchars($erro) ?>
-    </div>
-<?php endif; ?>
-
-<?php if ($sucesso): ?>
-    <div class="alert alert-success">
-        <?= htmlspecialchars($sucesso) ?>
-    </div>
-<?php endif; ?>
-
-<main class="auth-container">
-
-    <div class="hero-img">
+        <div class="hero-img">
             <img src="visual/images/jogador.png" alt="Jogadora de vôlei">
         </div>
 
-        <div class="auth-card">
+        <div class="auth-card" id="login">
+            <h2>Login</h2>
+            <p class="auth-sub">Entre para acompanhar treinos e campeonatos.</p>
 
-    <h2>Login</h2>
+            <?php if ($sucesso !== ''): ?>
+                <div class="auth-alert auth-alert--sucesso" role="alert">
+                    <?php echo htmlspecialchars($sucesso); ?>
+                </div>
+            <?php endif; ?>
 
-    <p class="subtitle">
-        Entre na sua conta StrikeSet
-    </p>
+            <?php if ($erro_login !== ''): ?>
+                <div class="auth-alert auth-alert--erro" role="alert">
+                    <?php echo htmlspecialchars($erro_login); ?>
+                </div>
+            <?php endif; ?>
 
-    <form class="auth-form" method="POST" action="login.php">
+            <form class="auth-form" method="POST" action="login.php#login">
+                <input type="hidden" name="acao" value="login">
 
-        <input
-            type="hidden"
-            name="acao"
-            value="login"
-        >
-
-        <div class="form-group">
-            <label for="login-email">E-mail</label>
-
-            <input
-                type="email"
-                id="login-email"
-                name="email"
-                placeholder="seu@email.com"
-                required
-            >
+                <div class="form-group">
+                    <label for="usuario">E-mail</label>
+                    <input type="email" id="usuario" name="email" placeholder="Digite seu e-mail" autocomplete="email" value="<?php echo htmlspecialchars($valor_login); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn-auth">Entrar</button>
+            </form>
+            <div class="text-small">
+                <a href="#">Esqueceu a senha?</a>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="login-senha">Senha</label>
-
-            <input
-                type="password"
-                id="login-senha"
-                name="senha"
-                placeholder="Digite sua senha"
-                required
-            >
+        <div class="auth-divider">
+            <span>ou</span>
         </div>
 
-        <button type="submit" class="btn-auth">
-            Entrar
-        </button>
+        <div class="auth-card" id="cadastro">
+            <h2>Cadastro</h2>
+            <p class="auth-sub">Crie sua conta e faça parte do time.</p>
 
-    </form>
+            <?php if ($erro_cadastro !== ''): ?>
+                <div class="auth-alert auth-alert--erro" role="alert">
+                    <?php echo htmlspecialchars($erro_cadastro); ?>
+                </div>
+            <?php endif; ?>
 
-  <div class="auth-card">
+            <form class="auth-form" id="form-cadastro" method="POST" action="login.php#cadastro" novalidate>
+                <input type="hidden" name="acao" value="cadastro">
 
-    <!-- LOGIN -->
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite seu nome"
+                        autocomplete="name"
+                        value="<?php echo htmlspecialchars($valor_nome); ?>"
+                        required>
+                </div>
 
-    <div class="text-small">
-        <a href="esqueci_senha.php">
-            Esqueceu a senha?
-        </a>
-    </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Digite seu e-mail"
+                        autocomplete="email"
+                        value="<?php echo htmlspecialchars($valor_email); ?>"
+                        required>
+                </div>
 
-</div> <!-- FECHA O CARD LOGIN -->
+                <div class="form-group">
+                    <label for="senha-cadastro">Senha</label>
+                    <input
+                        type="password"
+                        id="senha-cadastro"
+                        name="senha"
+                        placeholder="Crie uma senha (mínimo 6 caracteres)"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required>
+                </div>
 
-<div class="auth-card">
+                <div class="form-group">
+                    <label for="senha-repetir">Repetir senha</label>
+                    <input
+                        type="password"
+                        id="senha-repetir"
+                        name="repetir_senha"
+                        placeholder="Repita a senha"
+                        autocomplete="new-password"
+                        aria-describedby="senha-hint"
+                        required>
+                    <small class="field-hint" id="senha-hint" aria-live="polite"></small>
+                </div>
 
-    <!-- CADASTRO -->
-
-    <h2>Cadastro</h2>
-
-    <p class="subtitle">
-        Faça parte da comunidade StrikeSet
-    </p>
-
-    <form class="auth-form" method="POST" action="login.php">
-
-        <input
-            type="hidden"
-            name="acao"
-            value="cadastro"
-        >
-
-        <div class="form-group">
-            <label for="cadastro-nome">Nome</label>
-
-            <input
-                type="text"
-                id="cadastro-nome"
-                name="nome"
-                placeholder="Digite seu nome"
-                required
-            >
+                <button type="submit" class="btn-auth">Cadastrar-se</button>
+            </form>
+            <div class="text-small">
+                Ao se cadastrar, você concorda com nossos <a href="#">termos</a>.
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="cadastro-email">E-mail</label>
-
-            <input
-                type="email"
-                id="cadastro-email"
-                name="email"
-                placeholder="seu@email.com"
-                required
-            >
-        </div>
-
-        <div class="form-group">
-    <label for="cadastro-senha">Senha</label>
-
-    <input
-        type="password"
-        id="cadastro-senha"
-        name="senha"
-        placeholder="Crie uma senha"
-        required
-    >
-</div>
-
-<div class="form-group">
-    <label for="cadastro-repetir-senha">
-        Repetir senha
-    </label>
-
-    <input
-        type="password"
-        id="cadastro-repetir-senha"
-        name="repetir_senha"
-        placeholder="Digite novamente sua senha"
-        required
-    >
-</div>
-
-        <button type="submit" class="btn-auth">
-            Cadastrar
-        </button>
-
-    </form>
-
-    <div class="text-small">
-        Ao se cadastrar, você concorda com nossos
-        <a href="#">termos</a>.
-    </div>
-</div>
     </main>
 
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
+
+    <script>
+        (function () {
+            var form    = document.getElementById('form-cadastro');
+            var senha   = document.getElementById('senha-cadastro');
+            var repetir = document.getElementById('senha-repetir');
+            var dica    = document.getElementById('senha-hint');
+
+            /* Compara os dois campos de senha e avisa o usuário na hora */
+            function conferir() {
+                if (repetir.value === '') {
+                    repetir.setCustomValidity('');
+                    repetir.classList.remove('campo-erro', 'campo-ok');
+                    dica.textContent = '';
+                    dica.className = 'field-hint';
+                    return;
+                }
+
+                if (senha.value !== repetir.value) {
+                    repetir.setCustomValidity('As senhas não coincidem.');
+                    repetir.classList.add('campo-erro');
+                    repetir.classList.remove('campo-ok');
+                    dica.textContent = 'As senhas não coincidem.';
+                    dica.className = 'field-hint field-hint--erro';
+                } else {
+                    repetir.setCustomValidity('');
+                    repetir.classList.add('campo-ok');
+                    repetir.classList.remove('campo-erro');
+                    dica.textContent = 'As senhas coincidem.';
+                    dica.className = 'field-hint field-hint--ok';
+                }
+            }
+
+            senha.addEventListener('input', conferir);
+            repetir.addEventListener('input', conferir);
+
+            form.addEventListener('submit', function (e) {
+                conferir();
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    form.reportValidity();
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
