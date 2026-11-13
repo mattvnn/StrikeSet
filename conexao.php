@@ -46,3 +46,10 @@ $conn->set_charset("utf8mb4");
 
 /* Datas e horas do PHP no fuso de Santa Catarina */
 date_default_timezone_set('America/Sao_Paulo');
+
+/* Atualiza o banco antigo sozinho no primeiro acesso (datas em texto → DATE/TIME) */
+require_once __DIR__ . '/includes/migracao.php';
+
+if (!defined('SEM_MIGRACAO_AUTOMATICA')) {
+    migracao_automatica($conn);
+}

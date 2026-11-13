@@ -126,6 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]) . '#inscricoes';
     }
 
+    migracao_reverificar();
+
     header('Location: ' . $voltarPara);
     exit;
 }

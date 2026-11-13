@@ -28,3 +28,17 @@ function ativo_admin($arquivo, $pagina_atual) {
         <a class="btn-login" href="logout.php">Sair</a>
     </nav>
 </header>
+
+<?php $pendenciasBanco = isset($conn) ? migracao_pendencias($conn) : []; ?>
+
+<?php if ($pendenciasBanco): ?>
+    <div class="aviso-banco" role="alert">
+        <strong>Atualização do banco:</strong> não consegui entender a data/horário destes itens.
+        Edite cada um e escolha a data/horário certos:
+        <ul>
+            <?php foreach ($pendenciasBanco as $item): ?>
+                <li><?= htmlspecialchars($item) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>

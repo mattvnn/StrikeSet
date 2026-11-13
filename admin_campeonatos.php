@@ -112,6 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    migracao_reverificar();
+
     header('Location: admin_campeonatos.php');
     exit;
 }

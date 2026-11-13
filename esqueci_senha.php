@@ -13,7 +13,10 @@ $enviado = false;
 $linkDev = '';      /* só aparece com APP_DEBUG=1 e sem SMTP configurado */
 $email = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+/* Sem SMTP no .env não dá para mandar e-mail: avisa em vez de fingir que enviou */
+$emailDisponivel = smtp_configurado() || getenv('APP_DEBUG') === '1';
+
+if ($emailDisponivel && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $email = trim($_POST['email'] ?? '');
 
@@ -142,7 +145,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-card">
             <h2>Esqueci a senha</h2>
 
-            <?php if ($enviado): ?>
+            <?php if (!$emailDisponivel): ?>
+
+                <p class="auth-sub">Recuperação por e-mail indisponível.</p>
+
+                <div class="auth-alert auth-alert--aviso" role="alert">
+                    A recuperação de senha por e-mail ainda não foi ativada neste site.
+                    Fale com um administrador do StrikeSet.
+                </div>
+
+                <a class="btn-auth btn-auth--link" href="login.php#login">Voltar ao login</a>
+
+            <?php elseif ($enviado): ?>
 
                 <p class="auth-sub">Verifique sua caixa de entrada.</p>
 
